@@ -11,13 +11,23 @@ let config = {
   subdomains: []
 };
 
+let exampleConfig = {
+  port: 80,
+  subdomains: [
+    {
+      subdomain: 'my-app',
+      port: 3000
+    }
+  ]
+}
+
 if (fs.existsSync(configPath)) {
   const configFileContents = fs.readFileSync(configPath, { encoding: 'utf8' });
 
   config = JSON.parse(configFileContents);
 } else {
   console.log('Writing Local Domain config file');
-  fs.writeFile(configPath, JSON.stringify(config, null, 2), { encoding: 'utf8' });
+  fs.writeFile(configPath, JSON.stringify(exampleConfig, null, 2), { encoding: 'utf8' });
   console.log('Config file written to: "' + configPath + '"');
   console.log('Edit the config file and restart Local Domain to start development!');
 }
