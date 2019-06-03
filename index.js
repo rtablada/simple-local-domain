@@ -4,7 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const httpProxy = require('http-proxy');
 
-const proxy = httpProxy.createProxyServer({})
+const proxy = httpProxy.createProxyServer({
+  ws: true,
+});
 
 const configPath = path.join(process.env.HOME, '/.local-domain', 'config.json');
 let config = {
@@ -56,4 +58,17 @@ server.listen(80, (err) => {
   }
 
   console.log('Local Domain: Started');
+});
+
+server.on('upgrade', (req, socket, head) => {
+  let domain = req.headers.host;
+  let subdomain = domain.replace(/\.localhost/, '');
+
+  let subdomainConfig = config.subdomains.filter(a => a.subdomain === subdomain)[0];
+
+  proxy.ws(req, socket, head, {
+    target: 'ws://127.0.0.1:' + subdomainConfig.port
+  }, (err) => {
+
+  });
 });
