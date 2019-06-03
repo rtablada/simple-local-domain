@@ -1,7 +1,7 @@
 {
   "name": "local-domain",
   "description": "A simple manager for working with .localhost proxies and more!",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "author": {
     "email": "ryan.tablada@gmail.com",
